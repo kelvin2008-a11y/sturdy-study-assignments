@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f6f5ef">
+  <meta name="description" content="스터디 과제와 정답을 과목·회차별로 모아 보는 공유 공간입니다.">
+  <title>Sturdy Study · 과제 공유방</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Sturdy Study 홈">
+      <span class="brand-mark">S<span>+</span></span>
+      <span class="brand-name">sturdy<span>study</span></span>
+    </a>
+    <nav class="topnav" aria-label="주 메뉴">
+      <a class="active" href="#library">자료실</a>
+      <a href="#guide">이용 안내</a>
+    </nav>
+    <a class="github-link" href="https://github.com/kelvin2008-a11y/sturdy-study-assignments" target="_blank" rel="noreferrer">
+      <span>GitHub 저장소</span><span aria-hidden="true">↗</span>
+    </a>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="live-dot"></span> OUR STUDY, IN ONE PLACE</p>
+        <h1>함께 공부하고,<br><span>함께 나눠요.</span></h1>
+        <p class="hero-description">과제와 정답을 과목별, 회차별로 차곡차곡.<br>필요한 자료를 찾고 서로의 공부를 이어가요.</p>
+        <a class="hero-cta" href="#library">자료 둘러보기 <span aria-hidden="true">↓</span></a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+        <div class="orbit-label label-top">STUDY LOG <span>↗</span></div>
+        <div class="orbit-label label-bottom">ROUND BY ROUND</div>
+        <div class="hero-card card-back"><span class="card-stamp">STURDY<br>STUDY</span></div>
+        <div class="hero-card card-front">
+          <span class="mini-label">THIS WEEK</span>
+          <span class="hero-equation">∑<sub>n=1</sub><sup>∞</sup> <i>learn</i><sub>n</sub></span>
+          <span class="card-rule"></span>
+          <span class="card-note">차근차근, 한 회차씩.</span>
+          <span class="card-number">NO. 01 — ∞</span>
+        </div>
+        <span class="spark spark-a">✳</span><span class="spark spark-b">✳</span>
+      </div>
+      <div class="hero-foot"><span>STUDY TOGETHER</span><span>SEOUL · 2026</span></div>
+    </section>
+
+    <section class="library section-wrap" id="library">
+      <div class="section-heading">
+        <div><p class="eyebrow muted">THE STUDY ARCHIVE</p><h2>과목별 자료실<span class="heading-period">.</span></h2></div>
+        <p class="section-aside">필요한 과목과 회차를 골라<br>과제와 정답을 확인하세요.</p>
+      </div>
+      <div class="toolbar">
+        <div class="filter-row" id="filters" role="group" aria-label="과목 필터"></div>
+        <label class="search-box"><span aria-hidden="true">⌕</span><input id="search" type="search" placeholder="과목 또는 회차 검색" aria-label="과목 또는 회차 검색"><kbd>↵</kbd></label>
+      </div>
+      <div class="archive-meta"><span id="result-count">전체 과목</span><span>자료는 새 회차부터 계속 추가돼요 <span aria-hidden="true">↗</span></span></div>
+      <div class="subject-grid" id="subject-grid"></div>
+      <div class="empty-state" id="empty-state" hidden>검색 결과가 없어요. 다른 과목이나 회차를 찾아보세요.</div>
+    </section>
+
+    <section class="howto" id="guide">
+      <div class="howto-inner">
+        <div class="howto-title"><p class="eyebrow">A LITTLE GUIDE</p><h2>자료를 나누는<br>간단한 방법.</h2></div>
+        <div class="steps">
+          <article class="step"><span class="step-no">01</span><div><h3>과목과 회차를 확인해요</h3><p>과제와 정답은 과목 폴더 아래 회차별로 정리합니다.</p></div></article>
+          <article class="step"><span class="step-no">02</span><div><h3>파일 이름을 알아보기 쉽게</h3><p><code>01-과제.pdf</code>, <code>01-정답.pdf</code>처럼 저장해요.</p></div></article>
+          <article class="step"><span class="step-no">03</span><div><h3>저장소에 자료를 추가해요</h3><p>GitHub 저장소의 <code>materials</code> 폴더에 올리고 변경 사항을 공유해요.</p></div></article>
+        </div>
+        <div class="howto-note"><span class="note-icon">✳</span><p>정답을 보기 전에 먼저 풀어보면<br>공부 효과가 더 좋아요.</p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <a class="brand footer-brand" href="#top"><span class="brand-mark">S<span>+</span></span><span class="brand-name">sturdy<span>study</span></span></a>
+    <span class="footer-note">좋은 공부는 나눌수록 단단해져요.</span>
+    <span class="footer-copy">© 2026 STURDY STUDY</span>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
