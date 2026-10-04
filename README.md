@@ -1,40 +1,24 @@
 # Sturdy Study · 과제 공유방
 
-과제와 정답을 과목별·회차별로 찾을 수 있는 GitHub Pages 홈페이지입니다.
+과제와 정답을 과목별·회차별로 공개 공유하는 GitHub Pages 홈페이지입니다. 저장소의 **Issues 자료 업로드 양식**을 통해 과제 파일을 받고, 공개 GitHub API를 통해 홈페이지 자료실에 최신 제출 자료를 표시합니다.
 
-## 자료 추가하기
+## 누구나 자료 올리기
 
-1. 이 저장소의 `materials/` 아래 과목 폴더를 선택합니다.
-2. 회차 폴더를 만들고 과제와 정답 파일을 넣습니다.
-3. `script.js`의 해당 과목 `rounds` 목록에 회차와 파일 경로를 추가합니다.
-4. 변경 사항을 저장소에 반영하면 GitHub Pages에 자동 배포됩니다.
+1. 홈페이지의 **자료 올리기** 버튼을 누릅니다.
+2. 과목, 회차, 자료 종류를 고르고 파일을 첨부합니다.
+3. 제출한 자료는 홈페이지의 **최근 올라온 자료**와 과목별 회차 목록에 표시됩니다.
 
-예시 구조:
+업로드에는 GitHub 계정 로그인이 필요합니다. 저장소에 쓰기 권한을 받을 필요는 없습니다. 업로드한 파일은 공개 저장소의 첨부 파일로 저장되어 누구나 로그인 없이 내려받을 수 있습니다.
 
-```text
-materials/
-  math/
-    round-01/
-      assignment.pdf
-      answer.pdf
-  physics/
-    round-01/
-      assignment.pdf
-      answer.pdf
-```
+GitHub 업로드 양식은 PDF, DOCX, XLSX, PPTX, ZIP, 이미지, CSV, TXT 등 지원되는 형식과 크기 제한을 따릅니다. 한글 문서는 PDF로 변환해 올리는 것을 권장합니다. 파일은 공개되므로 공유 권한이 있는 자료만 올리고, 이름·학번 등 개인정보는 가려 주세요.
 
-과목 ID: `math`, `physics`, `chemistry`, `key-of-wisdom`, `liberal-arts`, `more`.
+## 홈페이지 구성
 
-회차 항목은 다음 형식으로 `script.js`의 해당 과목에 추가합니다.
+- 수학(유니미 정답 포함), 물리, 화학, 지성의 열쇠, 기타 교양 및 추가 과목
+- 과목별 회차 자료 수와 과제·정답 다운로드 링크
+- 최근 업로드 목록, 검색, 과목 필터
+- GitHub Pages 자동 배포
 
-```js
-rounds: [
-  { name: '01회차', assignment: 'materials/math/round-01/assignment.pdf', answer: 'materials/math/round-01/answer.pdf' },
-]
-```
+## 배포
 
-자료 공유 전 수업 자료의 공유 허용 범위를 확인하고, 이름·학번 등 개인정보가 포함되지 않도록 해주세요.
-
-## GitHub Pages
-
-`main` 브랜치에 반영하면 `.github/workflows/pages.yml`이 정적 사이트를 배포합니다. 저장소 설정의 Pages 배포 방식이 GitHub Actions로 설정되어 있어야 합니다.
+`main` 브랜치에 반영하면 `.github/workflows/pages.yml`이 GitHub Pages에 자동 배포합니다. 새 파일 업로드와 공개 Issue 열기는 GitHub Issues를 사용합니다.

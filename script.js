@@ -12,6 +12,7 @@ const grid = document.querySelector('#subject-grid');
 const search = document.querySelector('#search');
 const emptyState = document.querySelector('#empty-state');
 const resultCount = document.querySelector('#result-count');
+const uploadList = document.querySelector('#upload-list');
 let activeFilter = '전체';
 
 function renderFilters() {
@@ -27,10 +28,13 @@ function renderFilters() {
 function roundMarkup(subject) {
   if (!subject.rounds.length) return '';
   return `<div class="round-list">${subject.rounds.map(round => `
-    <div class="round-item"><span class="round-title">${round.name}</span><span class="round-links">
-      ${round.assignment ? `<a href="${round.assignment}">과제</a>` : '<span class="disabled">과제 준비 중</span>'}
-      ${round.answer ? `<a href="${round.answer}">정답</a>` : '<span class="disabled">정답 준비 중</span>'}
+    <div class="round-item"><span class="round-title">${escapeHtml(round.name)}</span><span class="round-links">
+      ${round.files.map(file => `<a href="${escapeHtml(file.url)}" target="_blank" rel="noreferrer">${escapeHtml(file.name)}</a>`).join('')}
     </span></div>`).join('')}</div>`;
+}
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]);
 }
 
 function renderSubjects() {
@@ -58,6 +62,109 @@ function renderSubjects() {
   }));
 }
 
+function fieldValue(body, label) {
+  const escaped = label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = body.match(new RegExp(`^### ${escaped}\\s*\\r?\\n([\\s\\S]*?)(?=\\n### |$)`, 'm'));
+  return match ? match[1].trim().replace(/^_No response_$/i, '') : '';
+}
+
+function uploadedFiles(body) {
+  const found = new Map();
+  const markdownLink = /\[([^\]]+)\]\((https:\/\/github\.com\/user-attachments\/(?:files|assets)\/[^)\s]+|https:\/\/user-images\.githubusercontent\.com\/[^)\s]+)\)/g;
+  for (const match of body.matchAll(markdownLink)) {
+    try {
+      const url = new URL(match[2]);
+      const isGithubAttachment = url.hostname === 'github.com' && url.pathname.startsWith('/user-attachments/');
+      const isGithubImage = url.hostname === 'user-images.githubusercontent.com';
+      if (isGithubAttachment || isGithubImage) found.set(url.href, match[1].trim() || '파일 다운로드');
+    } catch { /* Ignore malformed links in public submissions. */ }
+  }
+  return [...found.entries()].map(([url, name]) => ({ url, name }));
+}
+
+function renderUploads(issues) {
+  const submissions = issues.filter(issue => !issue.pull_request).map(issue => {
+    const body = issue.body || '';
+    return {
+      title: fieldValue(body, '과목') || '기타 자료',
+      round: fieldValue(body, '회차') || '회차 미기재',
+      type: fieldValue(body, '자료 종류') || '자료',
+      issueUrl: issue.html_url,
+      date: new Date(issue.created_at),
+      files: uploadedFiles(body),
+    };
+  }).filter(item => item.files.length).sort((a, b) => b.date - a.date);
+
+  subjects.forEach(subject => { subject.rounds = []; });
+  submissions.forEach(submission => {
+    const subject = subjects.find(item => item.name === submission.title);
+    if (!subject) return;
+    let round = subject.rounds.find(item => item.name === submission.round);
+    if (!round) {
+      round = { name: submission.round, files: [] };
+      subject.rounds.push(round);
+    }
+    submission.files.forEach(file => round.files.push({ ...file, name: file.name, type: submission.type }));
+  });
+  subjects.forEach(subject => subject.rounds.sort((a, b) => b.name.localeCompare(a.name, 'ko', { numeric: true })));
+  renderSubjects();
+
+  if (!submissions.length) {
+    uploadList.innerHTML = '<p class="no-uploads">아직 등록된 자료가 없어요. 첫 자료를 공유해 주세요.</p>';
+    return;
+  }
+
+  uploadList.replaceChildren();
+  submissions.slice(0, 12).forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'upload-item';
+    const details = document.createElement('div');
+    details.className = 'upload-details';
+    const subject = document.createElement('span');
+    subject.className = 'upload-subject';
+    subject.textContent = item.title;
+    const title = document.createElement('strong');
+    title.textContent = `${item.round} · ${item.type}`;
+    const date = document.createElement('span');
+    date.className = 'upload-date';
+    date.textContent = Number.isNaN(item.date.getTime()) ? '' : item.date.toLocaleDateString('ko-KR');
+    details.append(subject, title, date);
+    const links = document.createElement('div');
+    links.className = 'download-links';
+    item.files.forEach(file => {
+      const link = document.createElement('a');
+      link.href = file.url;
+      link.target = '_blank';
+      link.rel = 'noreferrer';
+      link.textContent = `↓ ${file.name}`;
+      links.append(link);
+    });
+    const issueLink = document.createElement('a');
+    issueLink.className = 'submission-link';
+    issueLink.href = item.issueUrl;
+    issueLink.target = '_blank';
+    issueLink.rel = 'noreferrer';
+    issueLink.textContent = '정보 ↗';
+    links.append(issueLink);
+    card.append(details, links);
+    uploadList.append(card);
+  });
+}
+
+async function loadUploads() {
+  try {
+    const url = new URL('https://api.github.com/repos/kelvin2008-a11y/sturdy-study-assignments/issues');
+    url.searchParams.set('state', 'all');
+    url.searchParams.set('labels', '자료공유');
+    url.searchParams.set('per_page', '100');
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
+    renderUploads(await response.json());
+  } catch {
+    uploadList.innerHTML = '<p class="no-uploads">자료 목록을 불러오지 못했어요. 잠시 뒤 다시 방문해 주세요. <a href="https://github.com/kelvin2008-a11y/sturdy-study-assignments/issues?q=is%3Aissue+label%3A%22%EC%9E%90%EB%A3%8C%EA%B3%B5%EC%9C%A0%22" target="_blank" rel="noreferrer">GitHub에서 자료 보기 ↗</a></p>';
+  }
+}
+
 search.addEventListener('input', renderSubjects);
 document.addEventListener('keydown', event => {
   if (event.key === '/' && document.activeElement !== search) {
@@ -69,3 +176,4 @@ document.addEventListener('keydown', event => {
 
 renderFilters();
 renderSubjects();
+loadUploads();
