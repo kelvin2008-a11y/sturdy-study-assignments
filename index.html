@@ -19,7 +19,7 @@
     </a>
     <nav class="topnav" aria-label="주 메뉴">
       <a class="active" href="#library">자료실</a>
-      <a href="https://github.com/kelvin2008-a11y/sturdy-study-assignments/issues/new?template=material-upload.yml" target="_blank" rel="noreferrer">자료 업로드 ↗</a>
+      <a href="#upload-dialog" id="upload-link">자료 업로드 ↗</a>
       <a href="#guide" id="guide-link">이용 안내</a>
     </nav>
     <a class="github-link" href="https://github.com/kelvin2008-a11y/sturdy-study-assignments" target="_blank" rel="noreferrer">
@@ -34,14 +34,13 @@
     <p id="welcome-description" class="welcome-intro">과제와 정답을 과목·회차별로 모아 보는 스터디 자료실이에요.</p>
     <div class="welcome-steps">
       <article><span>01</span><div><strong>과목 자료를 찾을 때</strong><p>과목을 고르고 <b>회차 보기</b>를 누르면 자료 링크가 나와요. 파일 이름을 눌러 바로 내려받을 수 있습니다.</p></div></article>
-      <article><span>02</span><div><strong>자료를 올릴 때</strong><p><b>자료 업로드</b>를 누른 뒤 과목, 회차, 자료 종류를 입력하고 파일을 첨부해요. 업로드에는 GitHub 로그인이 필요합니다.</p></div></article>
-      <article><span>03</span><div><strong>공개 자료를 올리기 전에</strong><p>올린 자료는 누구나 볼 수 있어요. 공유 권한이 있는 자료인지 확인하고 이름·학번 등 개인정보를 가려 주세요.</p></div></article>
+      <article><span>02</span><div><strong>자료를 올릴 때</strong><p><b>자료 업로드</b>에서 비밀번호를 정해 파일을 먼저 암호화한 뒤, 과목·회차·자료 종류와 암호화 ZIP을 게시해요. GitHub 로그인이 필요합니다.</p></div></article>
+      <article><span>03</span><div><strong>비밀번호는 따로 전해요</strong><p>비밀번호는 게시물에 저장되지 않아요. 자료를 받을 사람에게 별도로 알려 주세요. 공유 권한이 있는 자료인지 확인하고 개인정보를 가려 주세요.</p></div></article>
     </div>
     <div class="welcome-foot">
       <label class="welcome-remember"><input id="skip-welcome" type="checkbox" checked><span>다음 방문부터 자동 안내 건너뛰기</span></label>
       <button class="welcome-start" id="welcome-start" type="button">자료실 둘러보기 <span aria-hidden="true">→</span></button>
     </div>
-    <p class="welcome-file-note">PDF, DOCX, XLSX, PPTX, ZIP 등을 올릴 수 있어요. 한글 문서는 PDF로 변환해 주세요.</p>
   </dialog>
 
   <main id="top">
@@ -82,8 +81,8 @@
       <div class="subject-grid" id="subject-grid"></div>
       <div class="empty-state" id="empty-state" hidden>검색 결과가 없어요. 다른 과목이나 회차를 찾아보세요.</div>
       <section class="uploads" aria-labelledby="uploads-title">
-        <div class="uploads-heading"><div><p class="eyebrow muted">COMMUNITY UPLOADS</p><h3 id="uploads-title">최근 올라온 자료<span class="heading-period">.</span></h3></div><a class="upload-button" href="https://github.com/kelvin2008-a11y/sturdy-study-assignments/issues/new?template=material-upload.yml" target="_blank" rel="noreferrer"><span aria-hidden="true">＋</span> 자료 올리기</a></div>
-        <p class="uploads-note">모두가 올린 과제와 정답을 여기서 바로 내려받을 수 있어요. 업로드한 파일은 누구나 볼 수 있습니다.</p>
+        <div class="uploads-heading"><div><p class="eyebrow muted">COMMUNITY UPLOADS</p><h3 id="uploads-title">최근 올라온 자료<span class="heading-period">.</span></h3></div><a class="upload-button" href="#upload-dialog"><span aria-hidden="true">＋</span> 자료 올리기</a></div>
+        <p class="uploads-note">암호화된 ZIP은 누구나 내려받을 수 있지만, 원본 파일을 열려면 게시자가 따로 알려 준 비밀번호가 필요해요.</p>
         <div class="upload-list" id="upload-list" aria-live="polite"><p class="loading-uploads">공유 자료를 불러오는 중…</p></div>
       </section>
     </section>
@@ -93,13 +92,46 @@
         <div class="howto-title"><p class="eyebrow">A LITTLE GUIDE</p><h2>자료를 나누는<br>간단한 방법.</h2></div>
         <div class="steps">
           <article class="step"><span class="step-no">01</span><div><h3>과목과 회차를 확인해요</h3><p>과제와 정답은 과목 폴더 아래 회차별로 정리합니다.</p></div></article>
-          <article class="step"><span class="step-no">02</span><div><h3>파일 이름을 알아보기 쉽게</h3><p><code>01-과제.pdf</code>, <code>01-정답.pdf</code>처럼 저장해요.</p></div></article>
-          <article class="step"><span class="step-no">03</span><div><h3>자료 올리기를 눌러요</h3><p>과목과 회차를 선택하고 파일을 첨부하면 자료실에 공개돼요.</p></div></article>
+          <article class="step"><span class="step-no">02</span><div><h3>파일과 비밀번호를 정해요</h3><p>자료 올리기에서 원본 파일을 선택하고 12자 이상의 비밀번호로 암호화 ZIP을 만들어요.</p></div></article>
+          <article class="step"><span class="step-no">03</span><div><h3>암호화 ZIP을 게시해요</h3><p>과목·회차·자료 종류를 입력하고 ZIP을 첨부해요. 비밀번호는 받을 사람에게 따로 알려 주세요.</p></div></article>
         </div>
         <div class="howto-note"><span class="note-icon">✳</span><p>정답을 보기 전에 먼저 풀어보면<br>공부 효과가 더 좋아요.</p></div>
       </div>
     </section>
   </main>
+
+  <dialog class="security-dialog upload-dialog" id="upload-dialog" aria-labelledby="encrypt-title">
+    <div class="security-dialog-head"><div><p class="eyebrow muted">PRIVATE BY PASSWORD</p><h2 id="encrypt-title">비밀번호를 걸어<br><span>자료를 올려요.</span></h2></div><button class="welcome-close" type="button" data-close-dialog="upload-dialog" aria-label="암호화 안내 닫기">×</button></div>
+    <p class="security-intro">파일은 이 브라우저 안에서 암호화됩니다. 비밀번호와 원본 파일은 GitHub로 보내지 않아요.</p>
+    <div class="security-steps"><span>01</span>파일 선택 · 비밀번호 입력 <b>→</b> <span>02</span>암호화 ZIP 저장 <b>→</b> <span>03</span>게시 양식에 ZIP 첨부</div>
+    <div class="encrypt-form">
+      <label class="file-picker-label" for="encrypt-file">공유할 원본 파일</label>
+      <input id="encrypt-file" type="file" accept=".pdf,.docx,.xlsx,.pptx,.zip,.gz,.png,.jpg,.jpeg,.gif,.svg,.webp,.txt,.csv,.json">
+      <div class="password-fields">
+        <label>게시자가 정할 비밀번호<input id="encrypt-password" type="password" autocomplete="new-password" minlength="12" placeholder="12자 이상 권장"></label>
+        <label>비밀번호 다시 입력<input id="encrypt-confirm" type="password" autocomplete="new-password" minlength="12" placeholder="같은 비밀번호 입력"></label>
+      </div>
+      <p class="password-note">비밀번호는 저장되거나 게시물에 포함되지 않아요. 자료를 받을 사람에게 별도로 알려 주세요.</p>
+      <button class="encrypt-button" id="encrypt-button" type="button">암호화 ZIP 만들기 <span aria-hidden="true">↗</span></button>
+      <p class="encrypt-status" id="encrypt-status" role="status" aria-live="polite"></p>
+      <a class="prepared-link" id="prepared-link" hidden>암호화 ZIP 저장</a>
+      <a class="continue-upload" id="continue-upload" href="https://github.com/kelvin2008-a11y/sturdy-study-assignments/issues/new?template=material-upload.yml" target="_blank" rel="noreferrer" hidden>ZIP을 저장한 뒤 게시 양식 열기 <span aria-hidden="true">→</span></a>
+    </div>
+    <p class="security-limits">한 번에 20MB 이하의 파일을 올릴 수 있어요. 한글 문서는 PDF로 변환하면 편리합니다.</p>
+    <button class="text-close" type="button" data-close-dialog="upload-dialog">닫기</button>
+  </dialog>
+
+  <dialog class="security-dialog unlock-dialog" id="unlock-dialog" aria-labelledby="unlock-title">
+    <div class="security-dialog-head"><div><p class="eyebrow muted">UNLOCK A SHARED FILE</p><h2 id="unlock-title">비밀번호로<br><span>파일을 열어요.</span></h2></div><button class="welcome-close" type="button" data-close-dialog="unlock-dialog" aria-label="파일 잠금 해제 창 닫기">×</button></div>
+    <p class="security-intro">먼저 암호화 ZIP을 저장한 다음, 파일과 게시자가 알려 준 비밀번호를 입력하세요. 복호화는 이 브라우저에서만 이뤄집니다.</p>
+    <a class="encrypted-download" id="encrypted-download" href="#" target="_blank" rel="noreferrer">1. 암호화 ZIP 저장 ↓</a>
+    <label class="file-picker-label unlock-file-label" for="unlock-file">2. 저장한 ZIP 파일 선택</label>
+    <input id="unlock-file" type="file" accept=".zip,application/zip">
+    <label class="unlock-password-label">3. 게시자가 알려 준 비밀번호<input id="unlock-password" type="password" autocomplete="current-password" placeholder="비밀번호"></label>
+    <button class="encrypt-button" id="unlock-button" type="button">잠금 해제하고 파일 저장 <span aria-hidden="true">↓</span></button>
+    <p class="encrypt-status" id="unlock-status" role="status" aria-live="polite"></p>
+    <button class="text-close" type="button" data-close-dialog="unlock-dialog">닫기</button>
+  </dialog>
 
   <footer class="footer">
     <a class="brand footer-brand" href="#top"><span class="brand-mark">S<span>+</span></span><span class="brand-name">sturdy<span>study</span></span></a>
