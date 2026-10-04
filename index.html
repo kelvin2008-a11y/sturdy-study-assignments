@@ -20,12 +20,29 @@
     <nav class="topnav" aria-label="주 메뉴">
       <a class="active" href="#library">자료실</a>
       <a href="https://github.com/kelvin2008-a11y/sturdy-study-assignments/issues/new?template=material-upload.yml" target="_blank" rel="noreferrer">자료 업로드 ↗</a>
-      <a href="#guide">이용 안내</a>
+      <a href="#guide" id="guide-link">이용 안내</a>
     </nav>
     <a class="github-link" href="https://github.com/kelvin2008-a11y/sturdy-study-assignments" target="_blank" rel="noreferrer">
       <span>GitHub 저장소</span><span aria-hidden="true">↗</span>
     </a>
   </header>
+
+  <dialog class="welcome-dialog" id="welcome-dialog" aria-labelledby="welcome-title" aria-describedby="welcome-description">
+    <div class="welcome-topline"><span class="welcome-mark">S<span>+</span></span><span class="eyebrow muted">WELCOME TO STURDY STUDY</span><button class="welcome-close" type="button" aria-label="안내 닫기">×</button></div>
+    <p class="eyebrow muted welcome-kicker">처음 오셨나요?</p>
+    <h2 id="welcome-title">함께 나누는 공부,<br><span>이렇게 이용해요.</span></h2>
+    <p id="welcome-description" class="welcome-intro">과제와 정답을 과목·회차별로 모아 보는 스터디 자료실이에요.</p>
+    <div class="welcome-steps">
+      <article><span>01</span><div><strong>과목 자료를 찾을 때</strong><p>과목을 고르고 <b>회차 보기</b>를 누르면 자료 링크가 나와요. 파일 이름을 눌러 바로 내려받을 수 있습니다.</p></div></article>
+      <article><span>02</span><div><strong>자료를 올릴 때</strong><p><b>자료 업로드</b>를 누른 뒤 과목, 회차, 자료 종류를 입력하고 파일을 첨부해요. 업로드에는 GitHub 로그인이 필요합니다.</p></div></article>
+      <article><span>03</span><div><strong>공개 자료를 올리기 전에</strong><p>올린 자료는 누구나 볼 수 있어요. 공유 권한이 있는 자료인지 확인하고 이름·학번 등 개인정보를 가려 주세요.</p></div></article>
+    </div>
+    <div class="welcome-foot">
+      <label class="welcome-remember"><input id="skip-welcome" type="checkbox" checked><span>다음 방문부터 자동 안내 건너뛰기</span></label>
+      <button class="welcome-start" id="welcome-start" type="button">자료실 둘러보기 <span aria-hidden="true">→</span></button>
+    </div>
+    <p class="welcome-file-note">PDF, DOCX, XLSX, PPTX, ZIP 등을 올릴 수 있어요. 한글 문서는 PDF로 변환해 주세요.</p>
+  </dialog>
 
   <main id="top">
     <section class="hero">

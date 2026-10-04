@@ -13,6 +13,8 @@ const search = document.querySelector('#search');
 const emptyState = document.querySelector('#empty-state');
 const resultCount = document.querySelector('#result-count');
 const uploadList = document.querySelector('#upload-list');
+const welcomeDialog = document.querySelector('#welcome-dialog');
+const skipWelcome = document.querySelector('#skip-welcome');
 let activeFilter = '전체';
 
 function renderFilters() {
@@ -165,6 +167,27 @@ async function loadUploads() {
   }
 }
 
+function dismissWelcome() {
+  if (skipWelcome.checked) {
+    try { localStorage.setItem('sturdyStudyWelcomeSeen', 'true'); } catch { /* Storage may be disabled. */ }
+  }
+  welcomeDialog.close();
+}
+
+document.querySelector('#guide-link').addEventListener('click', event => {
+  event.preventDefault();
+  welcomeDialog.showModal();
+});
+document.querySelector('.welcome-close').addEventListener('click', dismissWelcome);
+document.querySelector('#welcome-start').addEventListener('click', () => {
+  dismissWelcome();
+  document.querySelector('#library').scrollIntoView({ behavior: 'smooth' });
+});
+welcomeDialog.addEventListener('cancel', event => {
+  event.preventDefault();
+  dismissWelcome();
+});
+
 search.addEventListener('input', renderSubjects);
 document.addEventListener('keydown', event => {
   if (event.key === '/' && document.activeElement !== search) {
@@ -177,3 +200,8 @@ document.addEventListener('keydown', event => {
 renderFilters();
 renderSubjects();
 loadUploads();
+try {
+  if (!localStorage.getItem('sturdyStudyWelcomeSeen')) welcomeDialog.showModal();
+} catch {
+  welcomeDialog.showModal();
+}
