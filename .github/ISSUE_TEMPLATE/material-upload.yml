@@ -25,7 +25,7 @@ body:
     id: round
     attributes:
       label: 회차
-      description: 예: 1회차, 중간고사, 2026-10-04
+      description: "예: 1회차, 중간고사, 2026-10-04"
       placeholder: 1회차
     validations:
       required: true
